@@ -1,6 +1,6 @@
 {
 	"name": "context-local",
-	"version": "0.0.0-development",
+	"version": "1.0.0",
 	"description": "Ergonomic typed context for async flows using AsyncLocalStorage",
 	"license": "MIT",
 	"repository": "mstuart/context-local",
