@@ -146,6 +146,6 @@ test('empty string as context value', t => {
 test('false as context value', t => {
 	const context = createContext(true);
 	context.run(false, () => {
-		t.is(context.get(), false);
+		t.false(context.get());
 	});
 });
