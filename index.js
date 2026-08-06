@@ -3,8 +3,8 @@ import {AsyncLocalStorage} from 'node:async_hooks';
 /**
 Create a typed async context with an optional default value.
 
-@param {*} [defaultValue] - The default value returned by `.get()` when outside a `.run()` scope.
-@returns {{run: Function, get: Function, runWith: Function}} A context object.
+@param {unknown} [defaultValue] - The default value returned by `.get()` when outside a `.run()` scope.
+@returns {{run: (value: unknown, function_: (...arguments_: unknown[]) => unknown) => unknown, get: () => unknown, runWith: (value: unknown) => (function_: (...arguments_: unknown[]) => unknown) => unknown}} A context object.
 */
 export default function createContext(defaultValue) {
 	const storage = new AsyncLocalStorage();
@@ -13,9 +13,9 @@ export default function createContext(defaultValue) {
 		/**
 		Run a function with the given value in the async context.
 
-		@param {*} value - The context value.
-		@param {Function} function_ - The function to run.
-		@returns {*} The result of function_.
+		@param {unknown} value - The context value.
+		@param {(...arguments_: unknown[]) => unknown} function_ - The function to run.
+		@returns {unknown} The result of function_.
 		*/
 		run(value, function_) {
 			return storage.run(value, function_);
@@ -24,7 +24,7 @@ export default function createContext(defaultValue) {
 		/**
 		Get the current context value or the default value.
 
-		@returns {*} The current context value.
+		@returns {unknown} The current context value.
 		*/
 		get() {
 			const value = storage.getStore();
@@ -34,8 +34,8 @@ export default function createContext(defaultValue) {
 		/**
 		Create a curried runner that wraps functions to run in the given context.
 
-		@param {*} value - The context value.
-		@returns {Function} A function that takes a function and runs it in the context.
+		@param {unknown} value - The context value.
+		@returns {(...arguments_: unknown[]) => unknown} A function that takes a function and runs it in the context.
 		*/
 		runWith(value) {
 			return function_ => storage.run(value, function_);
