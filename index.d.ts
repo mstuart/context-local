@@ -1,28 +1,27 @@
-export type Context<T> = {
-	/**
+export interface Context<T> {
+  /**
+	Get the current context value or the default value.
+
+	@returns The current context value.
+	*/
+  get: () => T;
+  /**
 	Run a function with the given value in the async context.
 
 	@param value - The context value.
 	@param function_ - The function to run.
 	@returns The result of function_.
 	*/
-	run<R>(value: T, function_: () => R): R;
+  run: <R>(value: T, function_: () => R) => R;
 
-	/**
-	Get the current context value or the default value.
-
-	@returns The current context value.
-	*/
-	get(): T;
-
-	/**
+  /**
 	Create a curried runner that wraps functions to run in the given context.
 
 	@param value - The context value.
 	@returns A function that takes a function and runs it in the context.
 	*/
-	runWith<R>(value: T): (function_: () => R) => R;
-};
+  runWith: <R>(value: T) => (function_: () => R) => R;
+}
 
 /**
 Create a typed async context with an optional default value.
