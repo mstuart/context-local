@@ -151,3 +151,11 @@ test("false as context value", (t) => {
     t.false(context.get());
   });
 });
+
+test("explicit undefined overrides the default value", (t) => {
+  const context = createContext("default");
+  context.run(undefined, () => {
+    t.is(context.get(), undefined);
+  });
+  t.is(context.get(), "default");
+});

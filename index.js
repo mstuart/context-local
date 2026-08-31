@@ -16,8 +16,8 @@ export default function createContext(defaultValue) {
 		@returns {unknown} The current context value.
 		*/
     get() {
-      const value = storage.getStore();
-      return value === undefined ? defaultValue : value;
+      const store = storage.getStore();
+      return store === undefined ? defaultValue : store.value;
     },
     /**
 		Run a function with the given value in the async context.
@@ -27,7 +27,7 @@ export default function createContext(defaultValue) {
 		@returns {unknown} The result of function_.
 		*/
     run(value, function_) {
-      return storage.run(value, function_);
+      return storage.run({ value }, function_);
     },
 
     /**
@@ -37,7 +37,7 @@ export default function createContext(defaultValue) {
 		@returns {(...arguments_: unknown[]) => unknown} A function that takes a function and runs it in the context.
 		*/
     runWith(value) {
-      return (function_) => storage.run(value, function_);
+      return (function_) => storage.run({ value }, function_);
     },
   };
 }
