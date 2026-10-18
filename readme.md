@@ -54,7 +54,7 @@ Runs `function_` with `value` in the async context. Returns the result of `funct
 
 ### context.get()
 
-Returns the current context value or the default value.
+Returns the current context value or the default value. Without a default, the value can be `undefined`; TypeScript includes this in the return type.
 
 ### context.runWith(value)
 
