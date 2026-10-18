@@ -20,7 +20,10 @@ export interface Context<T> {
 	@param value - The context value.
 	@returns A function that takes a function and runs it in the context.
 	*/
-  runWith: <R>(value: T) => (function_: () => R) => R;
+  runWith: {
+    (value: T): <R>(function_: () => R) => R;
+    <R>(value: T): (function_: () => R) => R;
+  };
 }
 
 /**
@@ -40,4 +43,7 @@ userContext.run({name: 'Alice'}, () => {
 });
 ```
 */
-export default function createContext<T>(defaultValue?: T): Context<T>;
+export default function createContext<T>(defaultValue: T): Context<T>;
+export default function createContext<T = unknown>(
+  defaultValue?: undefined
+): Context<T | undefined>;

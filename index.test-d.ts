@@ -15,9 +15,15 @@ expectType<number>(result);
 
 // Create without default
 const numberContext = createContext<number>();
-expectType<Context<number>>(numberContext);
-expectType<number>(numberContext.get());
+expectType<Context<number | undefined>>(numberContext);
+expectType<number | undefined>(numberContext.get());
 
 // Object context
 const objectContext = createContext({ id: 0, name: "" });
 expectType<{ id: number; name: string }>(objectContext.get());
+
+const inferredRunner = stringContext.runWith("scoped");
+expectType<number>(inferredRunner(() => 42));
+expectType<string>(inferredRunner(() => "text"));
+expectType<Promise<number>>(inferredRunner(async () => 42));
+expectType<number | undefined>(createContext<number>(undefined).get());
